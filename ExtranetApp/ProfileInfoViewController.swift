@@ -41,7 +41,6 @@ class ProfileInfoViewController: UIViewController, UITableViewDelegate, UITableV
     
     func initProfileLabels() {
         
-        
         labels.append(student.getEmail())
         labels.append(student.getPhone())
         labels.append(student.getBirthDate())
@@ -62,15 +61,15 @@ class ProfileInfoViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "infoCell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "infoCell", for: indexPath) as UITableViewCell
         
-        (cell.viewWithTag(6) as? UILabel)?.text = labels[indexPath.row]
-                
+        (cell.viewWithTag(13) as? UILabel)?.text = labels[indexPath.row]
+                        
         if indexPath.row != 4 {
             
             let image: UIImage = UIImage(named: images[indexPath.row])!
             
-            (cell.viewWithTag(7) as? UIImageView)?.image = image
+            (cell.viewWithTag(17) as? UIImageView)?.image = image
         }
         
         return cell

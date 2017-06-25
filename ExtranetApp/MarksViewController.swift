@@ -25,6 +25,7 @@ class MarksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     private var averagesSectionArray: [Array<String>] = []
     private var coeffSesctionArray = [String]()
     private var newMarksNotifications = [[Int]]()
+    private var UEAverages = [String]()
     
     var indicatorView: UIActivityIndicatorView! = nil
     
@@ -152,7 +153,7 @@ class MarksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let cellIdentifier = "yearCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         
-        (cell.viewWithTag(2) as! UILabel).text = coursesArray[indexPath.section][indexPath.row]
+        (cell.viewWithTag(2) as! UILabel).text = "\(coursesArray[indexPath.section][indexPath.row])"
         (cell.viewWithTag(4) as! UILabel).text = averagesSectionArray[indexPath.section][indexPath.row]
         cell.selectionStyle = .none
         
@@ -178,8 +179,8 @@ class MarksViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = (Bundle.main.loadNibNamed("ModuleSectionView", owner: self, options: nil)?[0] as? UIView)
         
-        (view?.viewWithTag(4) as! UILabel).text = modulesArray[section]
-        (view?.viewWithTag(5) as! UILabel).text = "Crédits: \(coeffSesctionArray[section])"
+        (view?.viewWithTag(4) as! UILabel).text = "\(modulesArray[section])"
+        (view?.viewWithTag(5) as! UILabel).text = "Crédits: \(coeffSesctionArray[section]) - Note: \(self.UEAverages[section])"
         
         return view
     }
@@ -206,6 +207,7 @@ class MarksViewController: UIViewController, UITableViewDelegate, UITableViewDat
         tableview.reloadData()
         coeffSesctionArray.removeAll()
         newMarksNotifications.removeAll()
+        UEAverages.removeAll()
         
         newMarksNotifications = notificationsUtils.getNewMarksPath()
         
@@ -215,6 +217,9 @@ class MarksViewController: UIViewController, UITableViewDelegate, UITableViewDat
             
             let module = semesterP[d]["Title"].stringValue
             modulesArray.append(removeOptionalInfos(text: module))
+            
+            let moduleAverage = semesterP[d]["MarkCode"].stringValue
+            UEAverages.append(moduleAverage)
             
             let average = semesterP[d]["MarkCode"].stringValue
             if average == "" {

@@ -23,6 +23,14 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let deviceType = UIDevice.current.modelName
+        print(deviceType)
+        
+        if deviceType == "iPhone 4" || deviceType == "iPhone 4s "{
+            
+            
+        }
 
         nameLabel.text = student.getName()
         student.downloadPicture { picture in
